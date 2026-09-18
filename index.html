@@ -186,9 +186,7 @@
 
         <h4 class="part-title">b) Derive the general N-cycle formulas</h4>
         <p class="instructions">
-          Modify the N=1 formulas above to take into account N cycles between peaks at
-          (t<sub>0</sub>, X<sub>0</sub>) and (t<sub>N</sub>, X<sub>N</sub>). Enter your derived formulas
-          below to check them.
+          Enter your derived formulas for zeta and wn below.
         </p>
         <div class="layout-with-sidebar">
           <div class="syntax-ref">
@@ -205,22 +203,24 @@
           </div>
           <div class="layout-main">
             <div class="note-box">
-              <b>Variables you can use:</b> <code>t0</code>, <code>X0</code>, <code>tN</code>, <code>XN</code>, <code>N</code> &mdash;
-              the peak data labeled in each formula below &mdash; plus <code>delta</code>, the log-decrement
-              ratio &delta; = ln(X0/XN) given in the problem statement. This is a plain-text box, so if you
-              need a Greek letter, spell out its name: e.g. write <code>zeta</code> for &zeta;, <code>omega</code>
-              for &omega; (<code>pi</code> is already built in as a constant).
+              <b>Variables you can use:</b> <code>t0</code>, <code>tN</code>, <code>N</code> &mdash; the peak
+              data labeled below &mdash; plus <code>delta</code> (&delta; = ln(X0/XN), the log-decrement ratio
+              given in the problem statement) and <code>P</code> (P = (tN&minus;t0)/N, the period for N cycles),
+              both already computed for you. The &omega;n box can also use <code>zeta</code>, meaning whatever
+              your &zeta; formula above evaluates to. This is a plain-text box, so if you need a Greek letter,
+              spell out its name: e.g. write <code>zeta</code> for &zeta;, <code>omega</code> for &omega;
+              (<code>pi</code> is already built in as a constant).
             </div>
             <div class="form-grid one">
               <div class="field">
-                <label>&zeta;(t0, X0, tN, XN, N) =</label>
-                <input type="text" id="input-p1-zeta-formula" value="" placeholder="in terms of t0, X0, tN, XN, N" spellcheck="false" />
+                <label>&zeta;(delta, N) =</label>
+                <input type="text" id="input-p1-zeta-formula" value="" placeholder="in terms of delta, N" spellcheck="false" />
               </div>
             </div>
             <div class="form-grid one">
               <div class="field">
-                <label>&omega;n(t0, X0, tN, XN, N) =</label>
-                <input type="text" id="input-p1-wn-formula" value="" placeholder="in terms of t0, X0, tN, XN, N" spellcheck="false" />
+                <label>&omega;n(t0, tN, N, P, &zeta;) =</label>
+                <input type="text" id="input-p1-wn-formula" value="" placeholder="in terms of t0, tN, N, P, zeta" spellcheck="false" />
               </div>
             </div>
             <button class="run-btn" id="btn-p1-check">CHECK</button>
@@ -491,7 +491,8 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
 
   // ---------------------------------------------------------------
   // Problem 1b: formula checker. Student enters zeta(...) and wn(...)
-  // as free-text expressions in terms of t0, X0, tN, XN, N; checked
+  // as free-text expressions (zeta in terms of delta, N; wn in terms of
+  // t0, tN, N, P, and the student's own zeta); checked
   // against several pre-computed (forward-simulated, exact) test
   // cases rather than just the live scope data, so the check doesn't
   // depend on which peaks a student happens to have picked elsewhere.
@@ -502,13 +503,15 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     { t0: 0.025852, X0: 1.45389, tN: 0.549555, XN: 0.775536, N: 5 },
     { t0: 0.143648, X0: 3.18816, tN: 1.414665, XN: 0.473747, N: 2 },
   ];
-  // Evaluation scope for the zeta/wn formula boxes: the raw peak data, plus
-  // delta = ln(X0/XN), the log-decrement ratio given in the problem
-  // statement for the N=1 case (undivided by N -- matches how delta is
-  // defined in the assignment PDF/livescript, so it's available as-is for
-  // building the N-cycle formula on top of it).
+  // Evaluation scope for the zeta/wn formula boxes. delta = ln(X0/XN) and
+  // P = (tN-t0)/N are given/derived quantities (matching the assignment
+  // PDF/livescript's own definitions), computed for the student so the
+  // boxes only expose t0, tN, N, delta, P -- not X0/XN directly. The wn
+  // box additionally gets "zeta", chained from evaluating the student's
+  // own zeta formula first, matching the MATLAB reference pattern
+  // (zeta computed, then reused in the wn line).
   function formulaScope(t0, X0, tN, XN, N) {
-    return { t0, X0, tN, XN, N, delta: Math.log(X0 / XN) };
+    return { t0, tN, N, delta: Math.log(X0 / XN), P: (tN - t0) / N };
   }
   document.getElementById("btn-p1-check").addEventListener("click", () => {
     const errEl = document.getElementById("err-p1");
@@ -525,10 +528,11 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     for (const c of P1_TEST_CASES) {
       let zUser, wUser;
       try {
-        const scope = formulaScope(c.t0, c.X0, c.tN, c.XN, c.N);
-        zUser = math.evaluate(zetaExpr, scope);
-        wUser = math.evaluate(wnExpr, scope);
-        if (typeof zUser !== "number" || typeof wUser !== "number" || !isFinite(zUser) || !isFinite(wUser)) throw new Error("not a number");
+        const baseScope = formulaScope(c.t0, c.X0, c.tN, c.XN, c.N);
+        zUser = math.evaluate(zetaExpr, baseScope);
+        if (typeof zUser !== "number" || !isFinite(zUser)) throw new Error("not a number");
+        wUser = math.evaluate(wnExpr, { ...baseScope, zeta: zUser });
+        if (typeof wUser !== "number" || !isFinite(wUser)) throw new Error("not a number");
       } catch (err) {
         errEl.textContent = "Couldn't evaluate one or both expressions.";
         return;
@@ -635,10 +639,11 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     const wnExpr = document.getElementById("input-p1-wn-formula").value.trim();
     if (!zetaExpr || !wnExpr) return { error: "Enter your ζ and ωn formulas in Problem 1b first." };
     try {
-      const scope = formulaScope(peaks.t0, peaks.X0, peaks.tN, peaks.XN, peaks.N);
-      const zeta = math.evaluate(zetaExpr, scope);
-      const wn = math.evaluate(wnExpr, scope);
-      if (typeof zeta !== "number" || typeof wn !== "number" || !isFinite(zeta) || !isFinite(wn)) throw new Error("not a number");
+      const baseScope = formulaScope(peaks.t0, peaks.X0, peaks.tN, peaks.XN, peaks.N);
+      const zeta = math.evaluate(zetaExpr, baseScope);
+      if (typeof zeta !== "number" || !isFinite(zeta)) throw new Error("not a number");
+      const wn = math.evaluate(wnExpr, { ...baseScope, zeta });
+      if (typeof wn !== "number" || !isFinite(wn)) throw new Error("not a number");
       return { zeta, wn };
     } catch (err) {
       return { error: "Couldn't evaluate your Problem 1b formulas with these peaks." };
@@ -934,8 +939,8 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
       addText("a) Pros/cons discussion:", { bold: true, size: 10.5 });
       addText(reflectionText("input-p1-reflection-a"));
       addText("b) Derived formulas:", { bold: true, size: 10.5 });
-      addText(`zeta(t0,X0,tN,XN,N) = ${document.getElementById("input-p1-zeta-formula").value}`);
-      addText(`wn(t0,X0,tN,XN,N) = ${document.getElementById("input-p1-wn-formula").value}`);
+      addText(`zeta(delta,N) = ${document.getElementById("input-p1-zeta-formula").value}`);
+      addText(`wn(t0,tN,N,P,zeta) = ${document.getElementById("input-p1-wn-formula").value}`);
       addUploadedImages("p1");
 
       addHeading("Problem 2: Implement & Verify (N=1)");
