@@ -244,11 +244,7 @@
         <p class="given-line">Using the real oscilloscope ringdown data from <b>GroupWork_5W_Lab2prep_LogDec.mat</b></p>
 
         <h4 class="part-title">a) Apply your formulas</h4>
-        <p class="instructions">
-          Use your &zeta; and &omega;n formulas from Problem 1 to compute &zeta; and &omega;n for the N = 1
-          case. You'll enter the peak measurements below in part b) &mdash; your formulas will be evaluated
-          automatically against them in part c).
-        </p>
+        <p class="instructions">This problem will use your formulas from problem 1 for the N = 1 case.</p>
 
         <h4 class="part-title">b) Identify consecutive peaks</h4>
         <p class="instructions">
@@ -277,14 +273,12 @@
           the peaks you identified above, and compare the resulting model to the experimental data.
         </p>
         <div class="note-box">
-          The plot's legend is shown <b>below</b> the plot, not to the side, so the curves stay large and
-          readable. If the orange (your fit) line is overlapping the green (reference) line, that means
-          your formulas match.
+          If the orange (your fit) line is overlapping the green (reference) line, that means your formulas match.
         </div>
         <button class="run-btn" id="btn-p2-fit">PLOT MODEL FIT</button>
         <div class="match-banner" id="banner-p2-fit"></div>
         <p class="field-err" id="err-p2-fit"></p>
-        <div class="plot-host" id="plot-p2-fit"><div class="placeholder">Identify peaks in part b) first, then click Plot Model Fit.</div></div>
+        <div class="plot-host" id="plot-p2-fit"></div>
         <p class="instructions" style="margin-top:16px;">Upload the figure verifying your function matches:</p>
         <div class="upload-block">
           <input type="file" id="upload-input-p2c" accept="image/*" multiple />
@@ -328,23 +322,14 @@
           free to go back to part a), pick different peaks, and re-fit.
         </p>
         <div class="note-box">
-          The plot's legend is shown <b>below</b> the plot, not to the side, so the curves stay large and
-          readable. If the orange (your fit) line is overlapping the green (reference) line, that means
-          your formulas match.
+          If the orange (your fit) line is overlapping the green (reference) line, that means your formulas match.
         </div>
         <button class="run-btn" id="btn-p3-fit">PLOT MODEL FIT</button>
         <div class="match-banner" id="banner-p3-fit"></div>
         <p class="field-err" id="err-p3-fit"></p>
-        <div class="plot-host" id="plot-p3-fit"><div class="placeholder">Identify peaks in part a) first, then click Plot Model Fit.</div></div>
+        <div class="plot-host" id="plot-p3-fit"></div>
         <div class="reflection-box" style="margin-top:16px;">
           <textarea id="input-p3-reflection" placeholder="Type your discussion here..."></textarea>
-        </div>
-        <p class="instructions" style="margin-top:16px;">Upload a copy of the figure:</p>
-        <div class="upload-block">
-          <input type="file" id="upload-input-p3b" accept="image/*" multiple />
-          <div class="upload-thumbs" id="upload-thumbs-p3b"></div>
-          <p class="upload-status" id="upload-status-p3b"></p>
-          <p class="upload-err" id="upload-err-p3b"></p>
         </div>
       </section>
 
@@ -725,7 +710,7 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
   // ---------------------------------------------------------------
   const MAX_IMAGE_DIM = 1200;
   const IMAGE_QUALITY = 0.7;
-  const UPLOAD_KEYS = ["p1", "p2c", "p3b"];
+  const UPLOAD_KEYS = ["p1", "p2c"];
   const uploadedImages = {};
   UPLOAD_KEYS.forEach((k) => { uploadedImages[k] = []; });
 
@@ -963,7 +948,6 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
       if (runFlags.p3) await addPlotImage("plot-p3-fit", "Problem 3b fit plot"); else addText("(Not yet fit.)");
       addText("Discussion:", { bold: true, size: 10.5 });
       addText(reflectionText("input-p3-reflection"));
-      addUploadedImages("p3b");
 
       const p4Reflection = document.getElementById("input-p4-reflection").value.trim();
       if (p4Reflection) {
