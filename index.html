@@ -177,7 +177,6 @@
       <!-- ============== PROBLEM 1 ============== -->
       <section id="part-p1" style="display:none;">
         <h3 class="problem-title">Problem 1: Derive &zeta; and &omega;n for N &gt; 1</h3>
-        <p class="instructions">No MATLAB required for this problem.</p>
 
         <h4 class="part-title">a) Discussion</h4>
         <p class="instructions">Discuss with your group the pros and cons of using consecutive peaks versus peaks separated by a few periods.</p>
@@ -205,6 +204,13 @@
             <div class="syn-row"><span>group</span><code>(a+b)*c</code></div>
           </div>
           <div class="layout-main">
+            <div class="note-box">
+              <b>Variables you can use:</b> <code>t0</code>, <code>X0</code>, <code>tN</code>, <code>XN</code>, <code>N</code> &mdash;
+              the peak data labeled in each formula below &mdash; plus <code>delta</code>, the log-decrement
+              ratio &delta; = ln(X0/XN) given in the problem statement. This is a plain-text box, so if you
+              need a Greek letter, spell out its name: e.g. write <code>zeta</code> for &zeta;, <code>omega</code>
+              for &omega; (<code>pi</code> is already built in as a constant).
+            </div>
             <div class="form-grid one">
               <div class="field">
                 <label>&zeta;(t0, X0, tN, XN, N) =</label>
@@ -237,19 +243,12 @@
         <h3 class="problem-title">Problem 2: Implement the Equations (N = 1)</h3>
         <p class="given-line">Using the real oscilloscope ringdown data from <b>GroupWork_5W_Lab2prep_LogDec.mat</b></p>
 
-        <h4 class="part-title">a) Modify CalcLogDec</h4>
+        <h4 class="part-title">a) Apply your formulas</h4>
         <p class="instructions">
-          In the provided livescript, modify the <code class="mono">CalcLogDec</code> function so it also
-          takes an input N for the number of cycles ("YOUR CODE HERE" in the General N cycle case block).
-          For the rest of this assignment, use N = 1.
+          Use your &zeta; and &omega;n formulas from Problem 1 to compute &zeta; and &omega;n for the N = 1
+          case. You'll enter the peak measurements below in part b) &mdash; your formulas will be evaluated
+          automatically against them in part c).
         </p>
-        <p class="instructions">Upload a screenshot of your rewritten function:</p>
-        <div class="upload-block">
-          <input type="file" id="upload-input-p2a" accept="image/*" multiple />
-          <div class="upload-thumbs" id="upload-thumbs-p2a"></div>
-          <p class="upload-status" id="upload-status-p2a"></p>
-          <p class="upload-err" id="upload-err-p2a"></p>
-        </div>
 
         <h4 class="part-title">b) Identify consecutive peaks</h4>
         <p class="instructions">
@@ -270,24 +269,17 @@
           <button class="run-btn secondary" id="btn-p2-clearpeaks">CLEAR</button>
         </div>
         <p class="field-err" id="err-p2-peaks"></p>
-        <div class="plot-host" id="plot-p2-scope"><div class="placeholder">Scope data will appear here.</div></div>
-        <p class="instructions" style="margin-top:16px;">Upload the figure showing your identified peaks:</p>
-        <div class="upload-block">
-          <input type="file" id="upload-input-p2b" accept="image/*" multiple />
-          <div class="upload-thumbs" id="upload-thumbs-p2b"></div>
-          <p class="upload-status" id="upload-status-p2b"></p>
-          <p class="upload-err" id="upload-err-p2b"></p>
-        </div>
+        <div class="plot-host" id="plot-p2-scope"></div>
 
         <h4 class="part-title">c) Compare your function to the reference</h4>
         <p class="instructions">
-          Click Plot Model Fit to fit the model to the peaks you identified above (N = 1) and compare
-          against the experimental data. Optionally, enter the &zeta; and &omega;n <i>your own</i>
-          <code class="mono">CalcLogDec</code> function produced to check them against the reference.
+          Click Plot Model Fit to evaluate your &zeta; and &omega;n formulas from Problem 1 (N = 1) against
+          the peaks you identified above, and compare the resulting model to the experimental data.
         </p>
-        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
-          <div class="field"><label>your &zeta; (optional)</label><input type="number" id="input-p2-your-zeta" value="" step="any" /></div>
-          <div class="field"><label>your &omega;n (optional)</label><input type="number" id="input-p2-your-wn" value="" step="any" /></div>
+        <div class="note-box">
+          The plot's legend is shown <b>below</b> the plot, not to the side, so the curves stay large and
+          readable. If the orange (your fit) line is overlapping the green (reference) line, that means
+          your formulas match.
         </div>
         <button class="run-btn" id="btn-p2-fit">PLOT MODEL FIT</button>
         <div class="match-banner" id="banner-p2-fit"></div>
@@ -326,22 +318,22 @@
           <button class="run-btn secondary" id="btn-p3-clearpeaks">CLEAR</button>
         </div>
         <p class="field-err" id="err-p3-peaks"></p>
-        <div class="plot-host" id="plot-p3-scope"><div class="placeholder">Scope data will appear here.</div></div>
-        <p class="instructions" style="margin-top:16px;">Upload the figure showing your identified peaks:</p>
-        <div class="upload-block">
-          <input type="file" id="upload-input-p3a" accept="image/*" multiple />
-          <div class="upload-thumbs" id="upload-thumbs-p3a"></div>
-          <p class="upload-status" id="upload-status-p3a"></p>
-          <p class="upload-err" id="upload-err-p3a"></p>
-        </div>
+        <div class="plot-host" id="plot-p3-scope"></div>
 
         <h4 class="part-title">b) Estimate the response</h4>
         <p class="instructions">
-          Click Plot Model Fit to see how well your model matches the experimental data. Discuss with
-          your group: are you satisfied with the match? What's good and bad about it? Feel free to go
-          back to part a), pick different peaks, and re-fit.
+          Click Plot Model Fit to evaluate your &zeta; and &omega;n formulas from Problem 1 against the
+          peaks you identified above, and see how well the resulting model matches the experimental data.
+          Discuss with your group: are you satisfied with the match? What's good and bad about it? Feel
+          free to go back to part a), pick different peaks, and re-fit.
         </p>
+        <div class="note-box">
+          The plot's legend is shown <b>below</b> the plot, not to the side, so the curves stay large and
+          readable. If the orange (your fit) line is overlapping the green (reference) line, that means
+          your formulas match.
+        </div>
         <button class="run-btn" id="btn-p3-fit">PLOT MODEL FIT</button>
+        <div class="match-banner" id="banner-p3-fit"></div>
         <p class="field-err" id="err-p3-fit"></p>
         <div class="plot-host" id="plot-p3-fit"><div class="placeholder">Identify peaks in part a) first, then click Plot Model Fit.</div></div>
         <div class="reflection-box" style="margin-top:16px;">
@@ -510,6 +502,14 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     { t0: 0.025852, X0: 1.45389, tN: 0.549555, XN: 0.775536, N: 5 },
     { t0: 0.143648, X0: 3.18816, tN: 1.414665, XN: 0.473747, N: 2 },
   ];
+  // Evaluation scope for the zeta/wn formula boxes: the raw peak data, plus
+  // delta = ln(X0/XN), the log-decrement ratio given in the problem
+  // statement for the N=1 case (undivided by N -- matches how delta is
+  // defined in the assignment PDF/livescript, so it's available as-is for
+  // building the N-cycle formula on top of it).
+  function formulaScope(t0, X0, tN, XN, N) {
+    return { t0, X0, tN, XN, N, delta: Math.log(X0 / XN) };
+  }
   document.getElementById("btn-p1-check").addEventListener("click", () => {
     const errEl = document.getElementById("err-p1");
     const bannerEl = document.getElementById("banner-p1");
@@ -525,8 +525,9 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     for (const c of P1_TEST_CASES) {
       let zUser, wUser;
       try {
-        zUser = math.evaluate(zetaExpr, c);
-        wUser = math.evaluate(wnExpr, c);
+        const scope = formulaScope(c.t0, c.X0, c.tN, c.XN, c.N);
+        zUser = math.evaluate(zetaExpr, scope);
+        wUser = math.evaluate(wnExpr, scope);
         if (typeof zUser !== "number" || typeof wUser !== "number" || !isFinite(zUser) || !isFinite(wUser)) throw new Error("not a number");
       } catch (err) {
         errEl.textContent = "Couldn't evaluate one or both expressions.";
@@ -614,7 +615,7 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
 
     const traces = [
       { x: SCOPE_DATA.t, y: dataShifted, mode: "markers", marker: { color: "#8B92A5", size: 3, symbol: "x" }, name: "Measured" },
-      { x: xRef, y: yRef, mode: "lines", line: { color: "#34D399", width: 2.5 }, name: "reference fit" },
+      { x: xRef, y: yRef, mode: "lines", line: { color: "#34D399", width: 2.5, dash: "dash" }, name: "reference fit" },
     ];
     let userOk = null;
     if (userZeta !== null && userWn !== null) {
@@ -626,20 +627,32 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     return { ref, userOk };
   }
 
+  // Evaluates the student's Problem 1b zeta/wn formulas against a given
+  // set of peaks (t0, X0, tN, XN, N), used by Problems 2c and 3b instead
+  // of a separate manual zeta/wn entry.
+  function evalUserFormulas(peaks) {
+    const zetaExpr = document.getElementById("input-p1-zeta-formula").value.trim();
+    const wnExpr = document.getElementById("input-p1-wn-formula").value.trim();
+    if (!zetaExpr || !wnExpr) return { error: "Enter your ζ and ωn formulas in Problem 1b first." };
+    try {
+      const scope = formulaScope(peaks.t0, peaks.X0, peaks.tN, peaks.XN, peaks.N);
+      const zeta = math.evaluate(zetaExpr, scope);
+      const wn = math.evaluate(wnExpr, scope);
+      if (typeof zeta !== "number" || typeof wn !== "number" || !isFinite(zeta) || !isFinite(wn)) throw new Error("not a number");
+      return { zeta, wn };
+    } catch (err) {
+      return { error: "Couldn't evaluate your Problem 1b formulas with these peaks." };
+    }
+  }
+
   document.getElementById("btn-p2-fit").addEventListener("click", () => {
     const errEl = document.getElementById("err-p2-fit");
     const bannerEl = document.getElementById("banner-p2-fit");
     errEl.textContent = ""; bannerEl.className = "match-banner"; bannerEl.textContent = "";
     if (!peakState.p2) { errEl.textContent = "Identify peaks in part b) first."; return; }
-    const zRaw = document.getElementById("input-p2-your-zeta").value.trim();
-    const wRaw = document.getElementById("input-p2-your-wn").value.trim();
-    const userZeta = zRaw === "" ? null : Number(zRaw);
-    const userWn = wRaw === "" ? null : Number(wRaw);
-    if ((zRaw !== "" && !isFinite(userZeta)) || (wRaw !== "" && !isFinite(userWn))) {
-      errEl.textContent = "Your \u03b6 and \u03c9n must be numbers.";
-      return;
-    }
-    const result = plotFit("p2", "plot-p2-fit", userZeta, userWn);
+    const user = evalUserFormulas(peakState.p2);
+    if (user.error) { errEl.textContent = user.error; return; }
+    const result = plotFit("p2", "plot-p2-fit", user.zeta, user.wn);
     if (result.userOk !== null) {
       bannerEl.className = result.userOk ? "match-banner match" : "match-banner no-match";
       bannerEl.textContent = result.userOk ? "\u2713 Correct." : "\u2717 Not quite \u2014 try again.";
@@ -650,9 +663,16 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
 
   document.getElementById("btn-p3-fit").addEventListener("click", () => {
     const errEl = document.getElementById("err-p3-fit");
-    errEl.textContent = "";
+    const bannerEl = document.getElementById("banner-p3-fit");
+    errEl.textContent = ""; bannerEl.className = "match-banner"; bannerEl.textContent = "";
     if (!peakState.p3) { errEl.textContent = "Identify peaks in part a) first."; return; }
-    const result = plotFit("p3", "plot-p3-fit", null, null);
+    const user = evalUserFormulas(peakState.p3);
+    if (user.error) { errEl.textContent = user.error; return; }
+    const result = plotFit("p3", "plot-p3-fit", user.zeta, user.wn);
+    if (result.userOk !== null) {
+      bannerEl.className = result.userOk ? "match-banner match" : "match-banner no-match";
+      bannerEl.textContent = result.userOk ? "\u2713 Correct." : "\u2717 Not quite \u2014 try again.";
+    }
     fitBaseValues.p3 = result.ref;
     runFlags.p3 = true;
     updateP4Base();
@@ -700,7 +720,7 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
   // ---------------------------------------------------------------
   const MAX_IMAGE_DIM = 1200;
   const IMAGE_QUALITY = 0.7;
-  const UPLOAD_KEYS = ["p1", "p2a", "p2b", "p2c", "p3a", "p3b"];
+  const UPLOAD_KEYS = ["p1", "p2c", "p3b"];
   const uploadedImages = {};
   UPLOAD_KEYS.forEach((k) => { uploadedImages[k] = []; });
 
@@ -919,14 +939,12 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
       addUploadedImages("p1");
 
       addHeading("Problem 2: Implement & Verify (N=1)");
-      addUploadedImages("p2a");
       if (peakState.p2) {
         addText(`Peaks: t0=${peakState.p2.t0}, X0=${peakState.p2.X0}, t1=${peakState.p2.tN}, X1=${peakState.p2.XN}`);
         await addPlotImage("plot-p2-scope", "Problem 2b scope plot");
       } else {
         addText("(No peaks identified yet.)");
       }
-      addUploadedImages("p2b");
       if (runFlags.p2) await addPlotImage("plot-p2-fit", "Problem 2c fit plot"); else addText("(Not yet fit.)");
       addUploadedImages("p2c");
 
@@ -937,7 +955,6 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
       } else {
         addText("(No peaks identified yet.)");
       }
-      addUploadedImages("p3a");
       if (runFlags.p3) await addPlotImage("plot-p3-fit", "Problem 3b fit plot"); else addText("(Not yet fit.)");
       addText("Discussion:", { bold: true, size: 10.5 });
       addText(reflectionText("input-p3-reflection"));
@@ -1042,12 +1059,12 @@ const SCOPE_DATA = {"t":[-0.05,-0.04975,-0.0495,-0.04925,-0.049,-0.04875,-0.0485
     if (state.runFlags) {
       Object.assign(runFlags, state.runFlags);
       if (runFlags.p2 && peakState.p2) {
-        const zRaw = document.getElementById("input-p2-your-zeta").value.trim();
-        const wRaw = document.getElementById("input-p2-your-wn").value.trim();
-        plotFit("p2", "plot-p2-fit", zRaw === "" ? null : Number(zRaw), wRaw === "" ? null : Number(wRaw));
+        const user = evalUserFormulas(peakState.p2);
+        plotFit("p2", "plot-p2-fit", user.error ? null : user.zeta, user.error ? null : user.wn);
       }
       if (runFlags.p3 && peakState.p3) {
-        const result = plotFit("p3", "plot-p3-fit", null, null);
+        const user = evalUserFormulas(peakState.p3);
+        const result = plotFit("p3", "plot-p3-fit", user.error ? null : user.zeta, user.error ? null : user.wn);
         fitBaseValues.p3 = result.ref;
         updateP4Base();
       }
